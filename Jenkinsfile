@@ -14,7 +14,6 @@ pipeline {
                 script {
                     def version = "${env.BUILD_NUMBER}"
                     env.IMAGE_TAG = "${REGISTRY}/${IMAGE_NAME}:${version}"
-
                     sh "docker build -t ${IMAGE_TAG} ."
                     sh "docker push ${IMAGE_TAG}"
                 }
