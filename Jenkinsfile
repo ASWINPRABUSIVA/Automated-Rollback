@@ -2,19 +2,13 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY = "your-docker-registry"
-        IMAGE_NAME = "your-app"
+        REGISTRY = "ghcr.io/aswinprabusiva"
+        IMAGE_NAME = "automated-rollback"
         DEPLOYMENT_NAME = "my-app"
         NAMESPACE = "default"
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://your-repo-url.git'
-            }
-        }
-
         stage('Build & Push Docker Image') {
             steps {
                 script {
@@ -30,9 +24,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh """
-                    kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_TAG} -n ${NAMESPACE}
-                    """
+                    sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_TAG} -n ${NAMESPACE}"
                 }
             }
         }
